@@ -1,3 +1,4 @@
+import 'package:corte_2/pages/registro.dart';
 import 'package:flutter/material.dart';
 
 class BotonesREOB extends StatefulWidget {
@@ -47,7 +48,6 @@ class _BotonesREOBState extends State<BotonesREOB>
                 ),
               ),
               onPressed: () {
-                print('boton 1');
               },
               icon:
                   // const ImageIcon(
@@ -55,7 +55,7 @@ class _BotonesREOBState extends State<BotonesREOB>
                   Container(
                       padding: const EdgeInsets.all(9),
                       child: Image.asset("lib/img/google.png")),
-              label: const Text('Ingresar con google')),
+              label: const Text('Continuar con google')),
         ),
         ConstrainedBox(
           constraints: BoxConstraints.tightFor(
@@ -71,10 +71,9 @@ class _BotonesREOBState extends State<BotonesREOB>
                 ),
               ),
               onPressed: () {
-                print('boton 2');
               },
               icon: const Icon(Icons.facebook),
-              label: const Text('Ingresar con facebook')),
+              label: const Text('Continuar con facebook')),
         ),
         ConstrainedBox(
           constraints: BoxConstraints.tightFor(
@@ -91,7 +90,10 @@ class _BotonesREOBState extends State<BotonesREOB>
               ),
             ),
             onPressed: () {
-              print('boton 3');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  RegistroView()),
+                );
             },
             icon: const Icon(
               Icons.email_outlined,
