@@ -9,14 +9,8 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
-  int index = 0;
-  List<Map<String, String>> onBoardingData = [
-    {"text": "page 01", "image": "lib/img/onboarding1.png"},
-    {"text": "page 02", "image": "lib/img/onboarding2.png"},
-    {"text": "page 03", "image": "lib/img/onboarding3.png"},
-    {"text": "page 04", "image": "lib/img/onboarding4.png"},
-    {"text": "page 05", "image": "lib/img/onboarding5.png"},
-  ];
+  int pages = 0;
+
   List<Map<String, String>> onBoardingData1 = [
     {
       "header": "Esparcimiento",
@@ -56,31 +50,121 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFFFFFFF),
-        body: SafeArea(
-            child: SizedBox(
+      backgroundColor: const Color(0xFFFFFFFF),
+      body: SafeArea(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Column(
             children: [
+              SizedBox(
+                height: 50,
+              ),
               Expanded(
                   flex: 4,
                   child: PageView.builder(
-                      itemCount: onBoardingData.length,
-                      itemBuilder: (contex, index) {
-                        this.index = index;
-                        return ContentBoarding(
-                          index: index,
-                          message: onBoardingData1[index]["text"]!,
-                          image: onBoardingData1[index]["image"]!,
-                          header: onBoardingData1[index]["header"]!,
-                          button: onBoardingData1[index]["button"]!,
-                        );
-                      })),
-              const SizedBox(height: 50)
+                    // physics: ClampingScrollPhysics(),
+                    itemCount: onBoardingData1.length,
+                    onPageChanged: (index) => {
+                      setState(() => {pages = index})
+                    },
+                    itemBuilder: (contex, index) {
+                      return ContentBoarding(
+                        message: onBoardingData1[index]["text"]!,
+                        image: onBoardingData1[index]["image"]!,
+                        header: onBoardingData1[index]["header"]!,
+                      );
+                    },
+                  )),
+              const SizedBox(height: 50),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(onBoardingData1.length,
+                            (index) => containerMethod(index: index)),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
-        )));
+        ),
+      ),
+      floatingActionButton: SizedBox(
+          width: MediaQuery.of(context).size.width - 40,
+          height: 50,
+          child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateColor.resolveWith((states) {
+                  if (pages == onBoardingData1.length - 1) {
+                    return const Color(0xFF76AB56);
+                  } else {
+                    return const Color(0xFFFFFFFF);
+                  }
+                }),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(
+                      color: pages != onBoardingData1.length - 1
+                          ? Color(0xff757575)
+                          : Color(0xFF76AB56),
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (pages == onBoardingData1.length) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyHomePage(),
+                      ));
+                } else {
+                  setState(() {
+                    //pasar al siguiente page view
+                  });
+                }
+              },
+              onLongPress: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyHomePage(),
+                    ));
+              },
+              child: Text(
+                (() => pages == onBoardingData1.length - 1
+                    ? 'Continuar'
+                    : 'Siguiente')(),
+                style: TextStyle(
+                    color: MaterialStateColor.resolveWith((states) {
+                      if (pages == onBoardingData1.length - 1) {
+                        return Color(0xffffffff);
+                      } else {
+                        return Color(0xff757575);
+                      }
+                    }),
+                    fontSize: 25),
+              ))),
+    );
+  }
+
+  AnimatedContainer containerMethod({required int index}) {
+    return AnimatedContainer(
+      margin: const EdgeInsets.only(right: 8),
+      height: 4,
+      width: pages == index ? 20 : 12,
+      duration: kThemeAnimationDuration,
+      decoration: BoxDecoration(
+          color: pages == index ? Color(0xFFFC1460) : Colors.grey),
+    );
   }
 }
 
@@ -89,16 +173,12 @@ class ContentBoarding extends StatelessWidget {
   String header;
   String message;
   String image;
-  String button;
-  int index;
 
   ContentBoarding({
     Key? key,
     required this.message,
     required this.image,
     required this.header,
-    required this.button,
-    required this.index,
   }) : super(key: key);
 
   @override
@@ -107,9 +187,9 @@ class ContentBoarding extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 150),
-        SizedBox(width: 200, height: 200, child: Image.asset(image)),
         const SizedBox(height: 50),
+        SizedBox(width: 200, height: 200, child: Image.asset(image)),
+        const SizedBox(height: 45),
         Text(
           header,
           style: const TextStyle(fontSize: 50, color: Color(0xff4f1581)),
@@ -126,147 +206,6 @@ class ContentBoarding extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 25),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-                height: 10,
-                width: 25,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(''),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((state) {
-                      if (index.compareTo(0) == 0) {
-                        return const Color(0xFFFC1460);
-                      }
-                      return const Color(0xC2E0E0E0);
-                    }),
-                  ),
-                )),
-            const SizedBox(width: 10),
-            SizedBox(
-                height: 10,
-                width: 25,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(''),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((state) {
-                      if (index.compareTo(1) == 0) {
-                        return const Color(0xFFFC1460);
-                      }
-                      return const Color(0xC2E0E0E0);
-                    }),
-                  ),
-                )),
-            const SizedBox(width: 10),
-            SizedBox(
-                height: 10,
-                width: 25,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(''),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((state) {
-                      if (index.compareTo(2) == 0) {
-                        return const Color(0xFFFC1460);
-                      }
-                      return const Color(0xC2E0E0E0);
-                    }),
-                  ),
-                )),
-            const SizedBox(width: 10),
-            SizedBox(
-                height: 10,
-                width: 25,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(''),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((state) {
-                      if (index.compareTo(3) == 0) {
-                        return const Color(0xFFFC1460);
-                      }
-                      return const Color(0xC2E0E0E0);
-                    }),
-                  ),
-                )),
-            const SizedBox(width: 10),
-            SizedBox(
-                height: 10,
-                width: 25,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(''),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((state) {
-                      if (index.compareTo(4) == 0) {
-                        return const Color(0xFFFC1460);
-                      }
-                      return const Color(0xC2E0E0E0);
-                    }),
-                  ),
-                )),
-          ],
-        ),
-        Container(
-          //color:Colors.blue,
-          height: MediaQuery.of(context).size.height/5,),
-        Container(
-          //color: Colors.red,
-          
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width-40,
-              height: 50,
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (index == 4) {
-                          return const Color(0xFF76AB56);
-                        } else {
-                          return const Color(0xFFFFFFFF);
-                        }
-                      }),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(
-                                color: Color(0xff757575),
-                              )))),
-                  onPressed: () {
-                    if (index == 4) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyHomePage(),
-                          ));
-                    } else {
-                      //pasar al siguiente page view
-                    }
-                  },
-                  onLongPress: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyHomePage(),
-                        ));
-                  },
-                  child: Text(
-                    button,
-                    style: TextStyle(
-                        color: MaterialStateColor.resolveWith((states) {
-                          if (index == 4) {
-                            return Color(0xffffffff);
-                          } else {
-                            return Color(0xff757575);
-                          }
-                        }),
-                        fontSize: 25),
-                  ))),
-        )
       ],
     );
   }

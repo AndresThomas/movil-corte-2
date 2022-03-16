@@ -45,11 +45,14 @@ class _LoginState extends State<Login> {
             Form(
               child: Column(
                 children: [
-                  const Text(
-                    'Correo Electronico',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width-170),
+                    child: const Text(
+                      'Correo Electronico',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -67,11 +70,14 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  const Text(
-                    'Contraseña',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width-130),
+                    child: const Text(
+                      'Contraseña',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),

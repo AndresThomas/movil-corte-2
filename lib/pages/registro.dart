@@ -45,11 +45,14 @@ class _RegistroViewState extends State<RegistroView> {
             Form(
               child: Column(
                 children: [
-                  const Text(
-                    'Nombre',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width-110),
+                    child: const Text(
+                      'Nombre',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -67,11 +70,14 @@ class _RegistroViewState extends State<RegistroView> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  const Text(
-                    'Correo Electronico',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width-170),
+                    child: const Text(
+                      'Correo Electronico',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -89,11 +95,14 @@ class _RegistroViewState extends State<RegistroView> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  const Text(
-                    'Contraseña',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width-130),
+                    child: const Text(
+                      'Contraseña',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
